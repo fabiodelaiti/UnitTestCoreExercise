@@ -1,6 +1,8 @@
 using System;
 using Xunit;
 using Moq;
+using Xunit.Abstractions;
+
 namespace CoreApp.Testing
 {
     public class MockLogger : ILogger
@@ -14,13 +16,20 @@ namespace CoreApp.Testing
 
     public class HomeControllerTest
     {
+        private readonly ITestOutputHelper output;
+
+        public HomeControllerTest(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         [Fact]
         public void DoaCtion_Log_AtLeastOnce()
         {
             // costruisco il controller 
             var logger = new MockLogger();
             var controller = new HomeController(logger);
-            Console.WriteLine("constructor called");
+            output.WriteLine("constructor called");
             // invoco il metodo
             controller.DoAction(1, 2);
             //Verifico che scriva "Start DoaCtion"
